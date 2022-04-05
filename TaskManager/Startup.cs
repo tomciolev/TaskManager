@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManager.Models;
+using TaskManager.Repositories;
 
 namespace TaskManager
 {
@@ -28,6 +29,11 @@ namespace TaskManager
             services.AddControllersWithViews();
             //konfiguruje kontekst po³¹czenia z baz¹
             services.AddDbContext<TaskManagerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TaskManagerDatabase")));
+
+            //AddTransient<typ us³ugi do dodania, typ implementacji do uzycia>
+            //dzieki temu za ka¿dym razem, gdy zostanie wywo³any konstruktor kontrolera to zostanie do niego wstrzykniêty
+            //obiekt TaskRepository, który implementuje interfejs ITaskRepository
+            services.AddTransient<ITaskRepository, TaskRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
